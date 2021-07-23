@@ -1,0 +1,70 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/ruby
+{
+	"name": "Ruby Project",
+	"build": {
+		"dockerfile": "../Dockerfile",
+		"context": "..",
+		"args": {
+			// Update 'VARIANT' to pick a Ruby version: 3, 3.0, 2, 2.7, 2.6
+			// "VARIANT": "3.0-slim-buster",
+			"VARIANT": "3.0",
+			// Options
+			"INSTALL_NODE": "false",
+			"NODE_VERSION": "lts/*"
+		}
+	},
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.profiles.linux": {
+			"bash": {
+				"path": "bash",
+				"args": ["-l"]
+			},
+			"zsh": {
+				"path": "zsh",
+				"args": ["-l"]
+			},
+		  },
+		"terminal.integrated.defaultProfile.linux": "zsh",
+		"ruby.useBundler": true,
+		"ruby.useLanguageServer": true,
+		"ruby.lint": {
+			"standard": {
+				"useBundler": true,
+			}
+		},
+		"ruby.format": "standard",
+		"ruby.intellisense": "rubyLocate",
+		"solargraph.useBundler": true,
+		"solargraph.definitions": true,
+		"[ruby]": {
+			"editor.tabSize": 2,
+			"editor.insertSpaces": true,
+		},
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"rebornix.Ruby",
+		"castwide.solargraph",
+		"castwide.ruby-debug",
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "bundle install",
+	"postCreateCommand": "bundle config set path 'vendor/bundle'; bundle install",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode",
+
+	"mounts": [
+		"source=${localEnv:HOME}/.ssh/,target=/root/.ssh/,type=bind,consistency=cached",
+		"source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached",
+		// "source=${localEnv:HOME}/.zshrc,target=/root/.zshrc,type=bind,consistency=cached",
+	]
+}
